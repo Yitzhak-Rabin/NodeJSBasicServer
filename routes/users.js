@@ -24,6 +24,29 @@ router.get('/', (req, res) => {
     res.send(users);
 })
 
+
+//Searching a User by Name
+router.get('/search', (request, response) =>{
+  console.log("FindingUserByName")
+  const query = request.query.first_name;
+  // console.log(query)
+  const result = users.find((user) => {
+  return user.first_name === query
+  });
+  console.log(result)
+  if(result) {
+    response.send(result)
+  }
+  else {
+    response.send({
+        message:"User Not Found"
+    })
+    
+  }
+}
+)
+
+
 // Adding users to our mock database
 
 router.post('/', (req, res) => {
@@ -70,24 +93,5 @@ router.patch('/:id', (req, res) => {
     res.send(`User with the ${id} has been updated`)
   
 });
-
-//Searching a User by Name
-router.get('/search', (request, response) =>{
-  console.log("FindingUserByName")
-  const first_name = request.query.first_name;
-  const result = users.find((user) => {
-  return user.first_name === first_name
-  });
-  if(result) {
-    response.send(result)
-  }
-  else {
-    response.send({
-        message:"User Not Found"
-    })
-    
-  }
-}
-)
 
 export default router
